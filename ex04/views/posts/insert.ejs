@@ -1,0 +1,29 @@
+<h1><%=title%></h1>
+
+
+<form class="p-5" method="post" name="frm" action=""><!--action은 생략해도 됨 같은 이름일 떄??-->
+            <input name="uid" type="hidden">
+            <input name="title" placeholder="제목을 입려하세여" class="form-control mb-3">
+            <textarea name="contents" rows="10" class="form-control" placeholder="내용을 입력하세여"></textarea>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary px-5">등록</button>
+            <button type="reset" class="btn btn-primary px-5">취소</button>
+        </div>
+</form>
+
+<script>
+    $(frm.uid).val(uid);
+    $(frm).on("submit", function(e){
+        e.preventDefault();
+        const title=$(frm.title).val();
+        const contents=$(frm.contents).val();
+        if(title==""){
+            alert("제목을 입력하소서");
+        }else if(contents==""){
+            alert("내용을 입력하소서");
+        }else{
+            alert(`${uid}\n${title}\n${contents}`);
+            frm.submit();
+        }
+    });
+</script>

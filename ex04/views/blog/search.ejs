@@ -1,0 +1,90 @@
+<h1><%=title%></h1>
+<div class="row-mb-2">
+    <form class="col-8 col-md-4" name="frm">
+        <div class="input-group">
+            <input class="form-control" name="query" value="자바" placeholder="검색어">
+            <button class="btn btn-primary">검색</button>  
+    </div>
+</form>
+</div>
+<div id="div_blog" style="width: 900px; margin:0px auto"></div>
+<div class="text-center my-3">
+
+    <button class="btn btn-primary" id="prev">이전</button>
+    <span class="mx-3" id="page">1</span>
+    <button class="btn btn-primary" id="next">다음</button>
+</div>
+
+
+
+<script id="temp_blog" type="X-handlebars-template" >
+    {{#each documents}}
+        <div class="row mb-3 url="{{url}} style="cursor:pointer;">
+            <div class="col">
+                <div><a href="{{url}}">{{{title}}}</a></div>
+                <div class="ellipsis3">{{{contents}}}</div>
+                <div class="mt-2" style="font-size:10px;color:gray;">
+                <span>{{blogname}}</span>
+                <span claas="ma-3">{{fmtDate datetime}}</span>
+                
+                </div>
+            </div>
+                 <div class="col">
+                <img src="{{thumbnail}}">
+            </div>
+        </div>
+    {{/each}}
+</script>
+
+<script>
+    Handlebars.registerHelper("fmtDate", function(date){
+        const yy=date.substr(0,4);
+        const mm=date.substr(5,2);
+        const dd=date.substr(8,2);
+        const fmtDate=`${yy}년 ${mm}월 ${dd}일`;
+        return fmtDate;
+    });
+</script>
+
+<!-- 검색관련 script -->
+
+<script>
+    const size=3;
+    let page=1;
+    let query = $(frm.query).val();                           //문제후보 1
+    getData();
+        //검색 미입력 방지
+        $(frm).on("submit", function(event){                         //문제후보3
+        event.preventDefault();
+        query=$(frm.query).val();
+        if(query==""){
+            alert("검색어를 입력하세요");
+        }else{
+            getData();
+            page==1;
+        }
+    })
+
+
+    //row를 클릭했을 때
+    $("#div_blog").on("click", ".row", function(){
+        const url=$(this).attr("url");
+        location.href=url;
+    })
+
+    function getData(){                                                              //문제후보 2
+        $.ajax ({
+            type:"get",
+            url:"https://dapi.kakao.com/v2/search/blog",
+            headers:{"Authorization":"KakaoAK 54b6688221dead45827042df7e297c2d"},
+            dataType:"json",
+            data:{query:query, size:size, page:page},
+            success:function(data){
+                console.log(data);
+                const temp=Handlebars.compile($("#temp_blog").html());
+                $("#div_blog").html(temp(data));
+            }
+
+        });
+    }
+</script>

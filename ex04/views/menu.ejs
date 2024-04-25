@@ -1,0 +1,68 @@
+<nav class="navbar bg-primary navbar-expand-lg" data-bs-theme="dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Home</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/book">도서검색</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/local">지역검색</a>
+        </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/blog">블로그검색</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/posts">게시판</a>
+      </li>
+      </ul>
+      <ul class="navbar-nav mb-2 mb-lg-0">
+          
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/users/login" >수정은 menu.ejs 를 건들면 됨</a>
+        </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/users/login"></a>
+        </li>
+        <li class="nav-item" id="logout" style="display : none;">
+          <a class="nav-link active" aria-current="page" href="/users/mypage">로그아웃</a>  <!--# 아무데도 이동하지 않고 현재페이지 보여주기-->
+      </li>
+        
+        <li class="nav-item" id="logout" style="display : none;">
+          <a class="nav-link active" aria-current="page" href="#">로그아웃</a>  <!--# 아무데도 이동하지 않고 현재페이지 보여주기-->
+      </li>
+      </ul>
+      
+      
+    </div>
+  </div>
+</nav>
+<script>
+  const uid=sessionStorage.getItem('uid');  ///uid에 있는것을 가져옴
+  if(uid){
+    $("#login").hide();
+    $("#logout").show();
+    $("#uid").show();
+    $("uid a").html(uid);  //한칸 띄고 a는  or a 라는 뜻  
+  }else{
+    $("#login").show();
+    $("#logout").hide();
+    $("#uid").hide();
+  }
+
+  //로그아웃 메뉴를 클릭했을 때
+  $("#logout").on("click", "a", function(e){
+    e.preventDefault();
+    if(confirm("로그아웃하실래요?")){
+      sessionStorage.clear();
+          location.href="/";
+    }
+          
+  });
+  
+  
+</script>
